@@ -1,0 +1,21 @@
+[Unit]
+Description=Codex Home Gateway reverse SSH tunnel
+After=network-online.target codex-home-gateway.service
+Wants=network-online.target codex-home-gateway.service
+
+[Service]
+Type=simple
+EnvironmentFile=/opt/codex-telegram-remote/home-gateway/reverse-tunnel.env
+ExecStart=/usr/bin/ssh -N -T -i ${REVERSE_TUNNEL_KEY} -o ExitOnForwardFailure=yes -o ServerAliveInterval=30 -o ServerAliveCountMax=3 -o StrictHostKeyChecking=yes -R ${REVERSE_TUNNEL_REMOTE_BIND}:${REVERSE_TUNNEL_REMOTE_PORT}:127.0.0.1:${HOME_GATEWAY_PORT} ${REVERSE_TUNNEL_TARGET}
+Restart=always
+RestartSec=5
+User=root
+Group=root
+
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=full
+ProtectHome=false
+
+[Install]
+WantedBy=multi-user.target
