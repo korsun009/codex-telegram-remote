@@ -1,0 +1,22 @@
+[Unit]
+Description=Codex Home Gateway
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+WorkingDirectory=/opt/codex-telegram-remote/home-gateway
+EnvironmentFile=/opt/codex-telegram-remote/home-gateway/.env
+ExecStart=/usr/bin/python3 /opt/codex-telegram-remote/home-gateway/app.py
+Restart=on-failure
+RestartSec=5
+User=root
+Group=root
+
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=full
+ProtectHome=true
+
+[Install]
+WantedBy=multi-user.target
