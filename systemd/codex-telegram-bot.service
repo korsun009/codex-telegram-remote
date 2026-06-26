@@ -1,0 +1,22 @@
+[Unit]
+Description=Codex Telegram Bot
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+WorkingDirectory=/opt/codex-telegram-remote/bot
+EnvironmentFile=/opt/codex-telegram-remote/bot/.env
+ExecStart=/usr/bin/python3 /opt/codex-telegram-remote/bot/app.py
+Restart=on-failure
+RestartSec=5
+User=codex
+Group=codex
+
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=full
+ProtectHome=true
+
+[Install]
+WantedBy=multi-user.target
